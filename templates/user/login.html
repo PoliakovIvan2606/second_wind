@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <!-- Подключаем Bootstrap CSS через интернет -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'user/login/style.css' %}">
+</head>
+<body>
+
+<div class="screen">
+    <div class="container mt-5 form-container">
+        <h2 class="text-center mt-5">Авторизация</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {% for f in form %}
+                <div class="form-group">
+                    <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+                    {{ f }}
+                    {% if f.errors %}
+                        <div class="alert alert-danger mt-3">
+                            {{ f.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Войти</button>
+                <a href="#" class="btn btn-success" id="start">Продолжить</a>
+                <a href="{% url 'user:registration' %}" class="btn btn-link">Регистрация</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="screen">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="{% static 'user/login/app.js' %}"></script>
+
+</body>
+</html>

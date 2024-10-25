@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация и Авторизация</title>
+    <!-- Подключаем Bootstrap CSS через интернет -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        header, section {
+            max-width: 1500px; /* Увеличенная максимальная ширина */
+            margin: auto; /* Центруем контейнер */
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h4 style="display: inline-block; margin: 0; margin-right: 10px;">{{ user.username }}</h4>
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'logout' %}" style="display: inline-block;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Выйти</button>
+        </form>
+    {% else %}
+        <form method="post" action="{% url 'user:login' %}" style="display: inline-block;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form> |
+        <form method="post" action="{% url 'user:registration' %}" style="display: inline-block;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Регистрация</button>
+        </form>
+    {% endif %}
+    <a href="{% url 'organization:home' %}" class="btn btn-primary">Страничка1</a>
+    <a href="{% url 'organization:index2' %}" class="btn btn-primary">Страничка2</a>
+</header>
+
+<section>
+    {% for user, ogrn in ogrn %}
+        <p>{{ user }} | {{ ogrn }}</p>
+    {% endfor %}
+</section>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

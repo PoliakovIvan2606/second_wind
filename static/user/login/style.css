@@ -1,0 +1,21 @@
+body {
+    overflow: hidden;
+}
+
+.form-container {
+    max-width: 500px; /* Увеличенная максимальная ширина */
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    transition: margin 0.5s ease-out;
+}
+
+.screen.up {
+    margin-top: -100vh;
+}
