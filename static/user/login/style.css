@@ -19,3 +19,18 @@ body {
 .screen.up {
     margin-top: -100vh;
 }
+
+.sw_ogrn {
+    display: block;
+    color: black;
+    padding: 5px;
+    border: 2px solid #CED4DA;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 250px;
+}
+
+.sw_ogrn:hover {
+    color: #CED4DA;
+    text-decoration: none;
+}

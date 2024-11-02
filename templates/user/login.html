@@ -37,11 +37,14 @@
     </div>
 </div>
 
+
 <div class="screen">
     <div class="container">
         <div class="row">
-            <div class="col text-center">
-                
+            <div class="col-md-4 mx-auto text-center" id="sw_ogrns">
+                <a href="{% url 'organization:home' %}" class="sw_ogrn">123123123123123132</a>
+                <a href="{% url 'organization:home' %}" class="sw_ogrn">123123123123123132</a>
+                <a href="{% url 'organization:home' %}" class="sw_ogrn">123123123123123132</a>
             </div>
         </div>
     </div>
@@ -51,6 +54,9 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    var ogrnUrl = "{% url 'organization:get_ogrn' %}";
+</script>
 <script src="{% static 'user/login/app.js' %}"></script>
 
 </body>
