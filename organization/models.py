@@ -10,5 +10,16 @@ def validate_numeric_string(value):
 class Organization(models.Model):
     ogrn = models.CharField(max_length=18, validators=[validate_numeric_string])
 
+    def clean(self):
+        if len(self.ogrn) != 18:
+            raise ValidationError("OGRN должен быть длиной 13 символов.")
+        elif not self.ogrn.isdigit():
+            raise ValidationError("OGRN должен содержать только цифры.")
+
+    def save(self, *args, **kwargs):
+        # Вызываем clean перед сохранением
+        self.clean()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.ogrn

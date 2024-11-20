@@ -1,15 +1,19 @@
 from django.http import HttpResponseForbidden
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_protect
 from user.models import User
 from .models import Organization
-def index(request):
+from user.forms import AddOgrnForm
+import json
+
+def index(request, ogrn):
     users = User.objects.prefetch_related('ogrn').all()
-    ogrn = []
+    ogrns = []
     for user in users:
         for org in user.ogrn.all():
-            ogrn.append((user, org))
-    return render(request, 'organization/index.html', context={'ogrn':ogrn})
+            ogrns.append((user, org))
+    return render(request, 'organization/index.html', context={'ogrns':ogrns, 'ogrn': ogrn})
 
 def index2(request):
     if not request.user.is_superuser:
@@ -18,6 +22,16 @@ def index2(request):
     return render(request, 'organization/index2.html')
 
 
+
+@csrf_protect
 def get_ogrn(request):
-    ogrn = Organization.objects.values_list('ogrn', flat=True)
-    return JsonResponse({'ogrn': list(ogrn)}, status=201)
+    user = request.user
+    if request.method == "GET":
+        ogrns = User.objects.get(email=user.email).ogrn.all().values_list('ogrn')
+        return JsonResponse({'ogrn': list(ogrns)}, status=201)
+    elif request.method == "POST":
+        ogrn = json.loads(request.body)['ogrn']
+        obj_ogrn, created = Organization.objects.get_or_create(ogrn=ogrn)
+        user.ogrn.add(obj_ogrn)
+        return JsonResponse({'status': 'ok'})
+        

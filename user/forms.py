@@ -1,8 +1,10 @@
 from django import forms
 
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.core.exceptions import ValidationError
 
 from user.models import User
+from organization.models import Organization
 
 
 class LoginUserForm(forms.Form):
@@ -16,7 +18,7 @@ class LoginUserForm(forms.Form):
         'type': 'password',
         'class': 'form-control',
     }))
-
+    
 class RegistrationForm(UserCreationForm):
     username = forms.CharField(label="Имя", widget=forms.TextInput(attrs={
         'id': 'login-username',
@@ -42,3 +44,20 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['email', 'username']
+
+
+class AddOgrnForm(forms.Form):
+    ogrn = forms.CharField(label="OGRN", widget=forms.TextInput(attrs={
+        'id': 'id_add_ogrn',
+        'type': 'text',
+        'class': 'form-control',
+    }))
+
+    def clean_ogrn(self):
+        ogrn = self.cleaned_data.get('ogrn')
+        if len(ogrn) != 13:
+            raise ValidationError("OGRN должен быть длиной 13 символов.")
+        elif not ogrn.isdigit():
+            print('в строке символы')
+            raise ValidationError("OGRN должен содержать только цифры.")
+        return ogrn
